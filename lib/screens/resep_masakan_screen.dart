@@ -10,50 +10,37 @@ class ResepMasakanScreen extends StatefulWidget {
   final Function toggleFavorite;
   final Function isFavorite;
 
-  // final Affordability? affordability;
-  const ResepMasakanScreen(
-      {required this.toggleFavorite,
-      required this.isFavorite,
-      super.key,
-      // this.affordability
-      
-      });
+  const ResepMasakanScreen({
+    required this.toggleFavorite,
+    required this.isFavorite,
+    super.key,
+  });
 
   @override
-  State<ResepMasakanScreen> createState() =>
-      _ResepMasakanScreenState(
-        //affordability: affordability!
-        );
+  State<ResepMasakanScreen> createState() => _ResepMasakanScreenState();
 }
 
 class _ResepMasakanScreenState extends State<ResepMasakanScreen>
     with TickerProviderStateMixin {
-  // final Affordability affordability;
-  // _ResepMasakanScreenState({
-  //   required this.affordability,
-  // });
-
-  // String get affordabilityText {
-  //   switch (affordability) {
-  //     case Affordability.Affordable:
-  //       return 'Affordable';
-  //       break;
-  //     case Affordability.Pricey:
-  //       return 'Pricey';
-  //       break;
-  //     case Affordability.Luxurious:
-  //       return 'Luxurious';
-  //       break;
-  //     default:
-  //       return 'Unknown';
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     final masakanArgsId = ModalRoute.of(context)!.settings.arguments as String;
     final selectMakanan =
         Makanan_Resep.firstWhere((makanan) => makanan.id == masakanArgsId);
+    String affordabilityText;
+    switch (selectMakanan.affordability) {
+      case Affordability.Affordable:
+        affordabilityText = "Affordablee";
+        break;
+      case Affordability.Pricey:
+        affordabilityText = "Pricey";
+        break;
+      case Affordability.Luxurious:
+        affordabilityText = "Luxuriyuss";
+        break;
+      default:
+        affordabilityText = "Unknown";
+    }
     TabController _tabController = TabController(length: 3, vsync: this);
     return SafeArea(
       child: Scaffold(
@@ -295,7 +282,7 @@ class _ResepMasakanScreenState extends State<ResepMasakanScreen>
                         width: 5,
                       ),
                       Text(
-                        'affordabilityText',
+                        affordabilityText,
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                       )
