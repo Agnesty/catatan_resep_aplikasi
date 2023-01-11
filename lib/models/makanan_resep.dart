@@ -21,12 +21,8 @@ class MakananResep {
   final List<String> preparation;
   final List<String> nutrition;
   final int duration;
-  final Complexity complexity;
   final Affordability affordability;
-  final bool isGlutenFree;
-  final bool isLactoseFree;
-  final bool isVegan;
-  final bool isVegetarian;
+ 
 
 const MakananResep ({
   required this.id,
@@ -37,11 +33,6 @@ const MakananResep ({
   required this.preparation,
   required this.nutrition,
   required this.duration,
-  required this.complexity,
   required this.affordability,
-  required this.isGlutenFree,
-  required this.isLactoseFree,
-  required this.isVegan,
-  required this.isVegetarian,
 });
 }

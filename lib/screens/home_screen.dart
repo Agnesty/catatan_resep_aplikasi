@@ -112,6 +112,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                               titleKategori: item.titleKategori,
                               color: item.color,
                               id: item.id,
+                              imgUrl: item.imgUrl,
                             ),
                           ).toList(),
                         ),

@@ -6,11 +6,13 @@ class KategoriItem extends StatelessWidget {
   final String id;
   final String titleKategori;
   final String subtitleKategori;
+  final String imgUrl;
   final color;
   const KategoriItem({
     required this.id,
     required this.subtitleKategori,
     required this.titleKategori,
+    required this.imgUrl,
     required this.color,
     Key? key,
   }) : super(key: key);
@@ -33,11 +35,11 @@ class KategoriItem extends StatelessWidget {
           color: color[300],
           child: ListTile(
             leading: Container(
-              height: 50,
-              width: 70,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: Colors.red[100]),
+              height: 70,
+              width: 60,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(imgUrl, fit: BoxFit.cover,)),
             ),
             title: Text(
               titleKategori,
