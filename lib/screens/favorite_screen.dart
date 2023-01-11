@@ -10,7 +10,7 @@ class FavoriteScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     if(favoriteMakanan.isEmpty){
       return Scaffold(
-      body: Center(child: Text('You have no favorites yet - start adding some!')),
+      body: Center(child: Text('Belum ada yang kamu sukai!')),
     );
     } else {
       return ListView.builder(
