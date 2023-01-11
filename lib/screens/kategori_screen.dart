@@ -23,33 +23,7 @@ class KategoriScreen extends StatefulWidget {
 
 class _KategoriScreenState extends State<KategoriScreen>
     with TickerProviderStateMixin {
-  late String kategoriTitle;
-  late List<MakananResep> displayedResep;
-  
-  var _loadedIniData = false;
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    if (!_loadedIniData) {
-      final routeArgs =
-          ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-      kategoriTitle = routeArgs['title']!;
-      final kategoriId = routeArgs['id'];
-      displayedResep = Makanan_Resep.where((makanan) {
-        return makanan.categories.contains(kategoriId);
-      }).toList();
-      widget.tambahMakanan = Makanan_Resep.where((makanan) {
-        return makanan.categories.contains(kategoriId);
-      }).toList();
-      _loadedIniData = true;
-    }
-    super.didChangeDependencies();
-  }
+ 
 
   void _removeMeal(String mknId) {
     setState(() {
@@ -60,7 +34,13 @@ class _KategoriScreenState extends State<KategoriScreen>
   @override
   Widget build(BuildContext context) {
     TabController _tabController = TabController(length: 2, vsync: this);
-
+    final routeArgs =
+          ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+      final kategoriTitle = routeArgs['title']!;
+      final kategoriId = routeArgs['id'];
+      final displayedResep = Makanan_Resep.where((makanan) {
+        return makanan.categories.contains(kategoriId);
+      }).toList();
     final appbar = AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,

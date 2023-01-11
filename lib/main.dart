@@ -46,9 +46,6 @@ class _MyAppState extends State<MyApp> {
     final existRespIndex =
         _toggleTambahResp.indexWhere((makanan) => makanan.id == makananId);
     if (existRespIndex >= 0) {
-      setState(() {
-        _toggleTambahResp.removeAt(existRespIndex);
-      });
     } else {
       setState(() {
         _toggleTambahResp.add(
@@ -57,7 +54,16 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
-  // This widget is the root of your application.
+  // ini untuk tambah resep lebih dari 1x
+//  void _tambahResp(String makananId) {
+//     final existRespIndex =
+//         _toggleTambahResp.indexWhere((makanan) => makanan.id == makananId);
+//       setState(() {
+//         _toggleTambahResp.add(
+//             Makanan_Resep.firstWhere((makanan) => makanan.id == makananId));
+//       });
+//   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -66,11 +72,6 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      // home:
-      // KategoriScreen(),
-      // BottomNavigation(),
-      // ResepMasakanScreen()
-
       initialRoute: '/',
       routes: {
         '/': (context) => BottomNavigation(

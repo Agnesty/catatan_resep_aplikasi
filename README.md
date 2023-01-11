@@ -1,16 +1,13 @@
-# aplikasi_catatan_resep
+# Aplikasi_Catatan_Resep_Flutter
+Simple clean Catatan Resep App using flutter.
 
-A new Flutter project.
+## Packages I am using:
+- Scroll Snap List
 
-## Getting Started
+### APP UI:
 
-This project is a starting point for a Flutter application.
+![App UI](/Recipe1.png)
 
-A few resources to get you started if this is your first Flutter project:
+![App UI](/Recipe2.png)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![App UI](/Recipe3.png)
