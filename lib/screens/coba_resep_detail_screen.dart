@@ -1,28 +1,25 @@
-import 'package:aplikasi_catatan_resep/models/makanan_resep.dart';
-import 'package:aplikasi_catatan_resep/screens/kategori_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../data/data_resep.dart';
+import '../models/makanan_resep.dart';
 
-class ResepMasakanScreen extends StatefulWidget {
-  static const routeName = '/resepMakanan-screen';
+class CobaResepDetailScreen extends StatefulWidget {
+  static const routeName = '/cobaResepDetail-screen';
 
   final Function toggleFavorite;
   final Function isFavorite;
-  final Function tambahResp;
 
-  const ResepMasakanScreen({
+  const CobaResepDetailScreen({
     required this.toggleFavorite,
     required this.isFavorite,
-    required this.tambahResp,
     super.key,
   });
 
   @override
-  State<ResepMasakanScreen> createState() => _ResepMasakanScreenState();
+  State<CobaResepDetailScreen> createState() => _CobaResepDetailScreenState();
 }
 
-class _ResepMasakanScreenState extends State<ResepMasakanScreen>
+class _CobaResepDetailScreenState extends State<CobaResepDetailScreen>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
@@ -313,9 +310,11 @@ class _ResepMasakanScreenState extends State<ResepMasakanScreen>
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: FloatingActionButton(
-          onPressed: () => widget.tambahResp(masakanArgsId),
+          onPressed: () {
+            Navigator.of(context).pop(masakanArgsId);
+          },
           backgroundColor: Colors.deepPurple,
-          child: Icon(Icons.add),
+          child: Icon(Icons.delete),
         ),
       ),
     );

@@ -1,20 +1,30 @@
 import 'package:aplikasi_catatan_resep/data/data_resep.dart';
 import 'package:flutter/material.dart';
 
+import '../models/makanan_resep.dart';
+import '../widgets/cobaResep_item.dart';
 import '../widgets/kategori_item.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home-screen';
-  const HomeScreen({super.key});
+  List<MakananResep> tambahMakanan;
+   HomeScreen({required this.tambahMakanan, super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
+  
+  void _removeMeal(String mknId) {
+    setState(() {
+      widget.tambahMakanan.removeWhere((mkn) => mkn.id == mknId);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(length: 3, vsync: this);
+    TabController _tabController = TabController(length: 2, vsync: this);
     final appbar = AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -73,19 +83,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                     ),
-                    Tab(
-                      child: Text(
-                        'Resep Populer',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
-                      ),
-                    ),
+                    
                   ],
                 )),
                 Divider(
                   thickness: 3,
-                  indent: 20,
-                  endIndent: 20,
+                  indent: 60,
+                  endIndent: 60,
                 ),
                 Container(
                   width: double.maxFinite,
@@ -113,8 +117,23 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
-                    Text('data'),
-                    Text('1'),
+                    if (widget.tambahMakanan.isEmpty)
+                    Center(child: Text('Belum ditambahkan')),
+                  if (widget.tambahMakanan.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: ListView.builder(
+                          itemCount: widget.tambahMakanan.length,
+                          itemBuilder: (context, index) {
+                            return CobaResepItem(
+                              imageUrl: widget.tambahMakanan[index].imageUrl,
+                              namaMakanan:
+                                  widget.tambahMakanan[index].namaMakanan,
+                              id: widget.tambahMakanan[index].id,
+                              removeItem: _removeMeal,
+                            );
+                          }),
+                    ),
                   ]),
                 ),
               ],

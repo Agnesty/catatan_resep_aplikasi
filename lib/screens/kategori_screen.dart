@@ -1,4 +1,5 @@
 import 'package:aplikasi_catatan_resep/models/makanan_resep.dart';
+import 'package:aplikasi_catatan_resep/widgets/cobaResep_item.dart';
 import 'package:aplikasi_catatan_resep/widgets/kategori_screen_item.dart';
 import 'package:flutter/material.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
@@ -9,19 +10,56 @@ import '../widgets/kategori_item.dart';
 
 class KategoriScreen extends StatefulWidget {
   static const routeName = '/kategori-screen';
+    List<MakananResep> tambahMakanan;
 
-
-  const KategoriScreen({super.key,});
+   KategoriScreen({
+    super.key,
+     required this.tambahMakanan,
+  });
 
   @override
   State<KategoriScreen> createState() => _KategoriScreenState();
 }
 
 class _KategoriScreenState extends State<KategoriScreen>
-    with TickerProviderStateMixin {   
+    with TickerProviderStateMixin {
+  late String kategoriTitle;
+  late List<MakananResep> displayedResep;
+  
+  var _loadedIniData = false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (!_loadedIniData) {
+      final routeArgs =
+          ModalRoute.of(context)!.settings.arguments as Map<String, String>;
+      kategoriTitle = routeArgs['title']!;
+      final kategoriId = routeArgs['id'];
+      displayedResep = Makanan_Resep.where((makanan) {
+        return makanan.categories.contains(kategoriId);
+      }).toList();
+      widget.tambahMakanan = Makanan_Resep.where((makanan) {
+        return makanan.categories.contains(kategoriId);
+      }).toList();
+      _loadedIniData = true;
+    }
+    super.didChangeDependencies();
+  }
+
+  void _removeMeal(String mknId) {
+    setState(() {
+      widget.tambahMakanan.removeWhere((mkn) => mkn.id == mknId);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(length: 3, vsync: this);
+    TabController _tabController = TabController(length: 2, vsync: this);
 
     final appbar = AppBar(
         backgroundColor: Colors.transparent,
@@ -30,7 +68,8 @@ class _KategoriScreenState extends State<KategoriScreen>
           padding: const EdgeInsets.only(left: 10, top: 5),
           child: IconButton(
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed(BottomNavigation.routeName);
+                Navigator.of(context)
+                    .pushReplacementNamed(BottomNavigation.routeName);
               },
               icon: const Icon(
                 Icons.arrow_back,
@@ -50,13 +89,7 @@ class _KategoriScreenState extends State<KategoriScreen>
           ),
         ]);
     final mediaQuery = MediaQuery.of(context);
-    final routeArgs = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-    final kategoriTitle = routeArgs['title'];
-    final kategoriId = routeArgs['id'];
-    final kategoriMakanan = Makanan_Resep.where((makanan){
-      return makanan.categories.contains(kategoriId);
-    }).toList();
-    
+
     return Scaffold(
       appBar: appbar,
       body: SingleChildScrollView(
@@ -90,32 +123,27 @@ class _KategoriScreenState extends State<KategoriScreen>
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
                   ),
-                  Tab(
-                    child: Text(
-                      'Resep Populer',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                  ),
                 ],
               )),
               Divider(
                 thickness: 3,
-                indent: 20,
-                endIndent: 20,
+                indent: 60,
+                endIndent: 60,
               ),
-              SizedBox(height: 10,),
               Container(
                 width: double.maxFinite,
                 height: (mediaQuery.size.height -
                         appbar.preferredSize.height -
                         mediaQuery.padding.top) *
-                    0.65,
+                    0.89,
                 child: TabBarView(controller: _tabController, children: [
                   Column(
                     children: [
+                      SizedBox(
+                        height: 30,
+                      ),
                       Text(
-                        kategoriTitle!,
+                        kategoriTitle,
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold),
                       ),
@@ -132,20 +160,35 @@ class _KategoriScreenState extends State<KategoriScreen>
                           scrollDirection: Axis.horizontal,
                           dynamicItemSize: true,
                           onItemFocus: ((index) {}),
-                          itemCount: kategoriMakanan.length,
+                          itemCount: displayedResep.length,
                           itemBuilder: (BuildContext context, int index) {
                             return KategoriScreenItem(
-                              id: kategoriMakanan[index].id,
-                              namaMakanan: kategoriMakanan[index].namaMakanan, 
-                              imageUrl: kategoriMakanan[index].imageUrl,
-                              );
+                              id: displayedResep[index].id,
+                              namaMakanan: displayedResep[index].namaMakanan,
+                              imageUrl: displayedResep[index].imageUrl,
+                            );
                           },
                         ),
                       ),
                     ],
                   ),
-                  Text('data'),
-                  Text('1'),
+                  if (widget.tambahMakanan.isEmpty)
+                    Center(child: Text('Belum ditambahkan')),
+                  if (widget.tambahMakanan.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: ListView.builder(
+                          itemCount: widget.tambahMakanan.length,
+                          itemBuilder: (context, index) {
+                            return CobaResepItem(
+                              imageUrl: widget.tambahMakanan[index].imageUrl,
+                              namaMakanan:
+                                  widget.tambahMakanan[index].namaMakanan,
+                              id: widget.tambahMakanan[index].id,
+                              removeItem: _removeMeal,
+                            );
+                          }),
+                    ),
                 ]),
               ),
             ],

@@ -7,8 +7,9 @@ import '../screens/profile_screen.dart';
 
 class BottomNavigation extends StatefulWidget {
   final List<MakananResep> favoriteMakanan;
+  final List<MakananResep> tambahmkn;
   static const routeName = '/';
-  const BottomNavigation({super.key, required this.favoriteMakanan});
+  const BottomNavigation({super.key, required this.favoriteMakanan, required this.tambahmkn});
 
   @override
   State<BottomNavigation> createState() => _BottomNavigationState();
@@ -21,7 +22,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   @override
   void initState(){
     _pages = [
-      {'page': HomeScreen()},
+      {'page': HomeScreen(tambahMakanan: widget.tambahmkn,)},
       {'page': FavoriteScreen(favoriteMakanan: widget.favoriteMakanan,)},
       {'page': ProfileScreen()},
     ];
